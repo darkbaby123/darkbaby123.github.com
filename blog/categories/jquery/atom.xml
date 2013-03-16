@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jQuery | David's Blog]]></title>
+  <link href="http://darkbaby123.github.com/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://darkbaby123.github.com/"/>
+  <updated>2013-03-16T21:00:43+08:00</updated>
+  <id>http://darkbaby123.github.com/</id>
+  <author>
+    <name><![CDATA[David Chen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[jquery_ujs小技巧，使用ajax回调]]></title>
+    <link href="http://darkbaby123.github.com/blog/2013/02/27/jquery-ujs-ajax-callback/"/>
+    <updated>2013-02-27T19:42:00+08:00</updated>
+    <id>http://darkbaby123.github.com/blog/2013/02/27/jquery-ujs-ajax-callback</id>
+    <content type="html"><![CDATA[<p>最近在优化admin后台的几个CRUD页面，要把删除数据的DELETE请求的变成ajax的。为了重用客户端的JavaScript代码，研究了一下jquery_ujs文件。</p>
+
+<!-- more -->
+
+
+<p>每个CRUD页面要求都是一样的：</p>
+
+<ol>
+<li>删除按钮都放在列表页面，每行数据一个。</li>
+<li>点击删除后发起ajax请求。</li>
+<li>删除成功后用JavaScript把该行数据删掉。</li>
+</ol>
+
+
+<h2>老的做法</h2>
+
+<p>按照RailsCasts介绍的方式（我当时只会这一种），link_to加上remote参数，destroy方法里render js返回一段JavaScript，在JavaScript中处理页面相关的操作（这里用的隐藏被删除的行）。</p>
+
+<p><code>erb destroy.js.erb
+$('#item_&lt;%= @item.id %&gt;').hide('slow');    // 假设每一行起一个id叫item_xxx，这里做的隐藏效果
+</code></p>
+
+<h4>上面那种做法有几个麻烦的地方：</h4>
+
+<ol>
+<li>服务器端返回的JavaScript没有上下文环境，想找到需要删除的行就必须通过指定id之类的方式。这样页面上每行还要加一个id。</li>
+<li>每个CRUD页面，删除后执行的JavaScript几乎都是这样，用erb写就要每个controller的destroy方法都写一个（Rails的模板继承应该可以解决此问题，没研究过）。</li>
+</ol>
+
+
+<p>那怎么重构呢？ 我们可以给ajax请求绑定回调函数，为了让所有CRUD页面都使用相同的回调，我们可以写一个初始化函数，检查CRUD的列表，找到所有删除链接，绑定回调。</p>
+
+<p>但Rails采用的是unobtrusive JavaScript，ajax请求的代码是写在jquery_ujs里的，这种情况下要添加ajax回调怎么做呢？</p>
+
+<p>看了下jquery_ujs，它对ajax请求的代码放在<strong>handleRemote</strong>方法里，而且很智能的提供了几个回调，其中一个就是<strong>ajax:success</strong>，ajax请求成功后调用，这样我们就只用对删除按钮绑定<strong>ajax:success</strong>事件就行了。</p>
+
+<h2>使用jquery_ujs回调的做法</h2>
+
+<p>CRUD列表的页面结构简单说下，为了方便找CRUD的列表，我给列表加上了一个crud-list的class，删除按钮是用link_to生成的a标签</p>
+
+<p>```javascript JavaScript
+  // 在dom ready事件中绑定这个方法就行了
+  function initCrudList() {</p>
+
+<pre><code>// 想兼容性更好可以加上条件[data-remote=true]，这样只有声明了data-remote的链接会绑定回调，普通链接还是直接发起DELETE请求
+$('.crud-list a[data-method=delete]').on('ajax:success', function() {
+  $(this).parents('tr:first').hide('slow');
+});
+</code></pre>
+
+<p>  }
+```</p>
+
+<p>这样就好了。以后如果哪个页面的ajax请求比较特殊，可以使用off把这段回调删了再添加自己想要的逻辑。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery中不同的事件绑定方法的区别]]></title>
+    <link href="http://darkbaby123.github.com/blog/2013/02/24/the-difference-jquery-event-binding-methods/"/>
+    <updated>2013-02-24T12:55:00+08:00</updated>
+    <id>http://darkbaby123.github.com/blog/2013/02/24/the-difference-jquery-event-binding-methods</id>
+    <content type="html"><![CDATA[<p>这段时间处理事件绑定方法比较多，突然想到jQuery里绑定方法挺多的，有on, bind, delegate，还有以前记得的live和one。以前都只会用，
+没具体研究过区别在哪里。这篇文章算是把知识梳理一下，做个总结。</p>
+
+<!-- more -->
+
+
+<h2>on</h2>
+
+<p>这个是jQuery 1.7加入的方法，它提供了所有其他事件绑定方法的功能，统一了事件绑定的API。1.7以后的版本推荐都用此方法。
+看看例子就知道怎么用了，详细的可以去查官方API。</p>
+
+<p>相应的解除绑定的方法是<strong>off</strong>。</p>
+
+<p><code>javascript JavaScript
+$('table a.delete').on('click', function() {});             // 绑定click方法
+$('table a.delete').on('click.myPlugin', function() {});    // 绑定click方法，加上命名空间myPlugin，方便解除绑定
+$('table').on('click', 'a.delete', function() {});          // delegate的写法，绑定
+$('table').on('click dblclick', function() {});             // 同时绑定click和dblclick方法
+$('table').on({                                             // 比较少见的用法，一般都用链式调用做了
+  click: function() {},
+  dblclick: function() {}
+});
+</code></p>
+
+<h2>bind</h2>
+
+<p>给html元素直接绑定事件，1.7以前的版本没有on方法，只能用这个。</p>
+
+<p>相应的解除绑定的方法是<strong>unbind</strong>。</p>
+
+<p><code>javascript JavaScript
+$('table a.delete').bind('click', function() {});    // 给a绑定click事件
+$('table a.delete').on('click', function() {});      // on的写法
+$('table a.delete').click(function() {});            // 只是绑定dom事件一般都这样写了
+</code></p>
+
+<h2>delegate</h2>
+
+<p>指定一个根元素，给它下面符合选择器要求的元素绑定事件。
+它利用的是事件冒泡特性，回调函数实际上绑定给跟元素，
+当下面的元素触发了事件，冒泡上来被跟元素捕获，jQuery检查它符合选择器的要求，就会执行回调函数。
+当要绑定事件的元素不存在，或者有频繁的变动时（比如被删除了或者新添加了），适合使用这个方法。</p>
+
+<p>相应的解除绑定的方法是<strong>undelegate</strong>。</p>
+
+<p><code>javascript JavaScript
+$('table').delegate('a.delete', 'click', function() {});    // delegate的写法
+$('table').on('click', 'a.delete', function() {});          // on的写法
+</code></p>
+
+<p>如果用bind的话，当table中新加了一个a.delete元素时，你必须记得调用bind方法给它绑定click事件，
+元素被删除之前为了性能考虑，最要调用一下unbind解除绑定。不仅麻烦，而且给太多元素绑定事件也会影响性能。</p>
+
+<p>这种应用最典型的两个例子就是jquery-rails中的jquery_ujs和Bootstrap的各种插件。
+jquery_ujs对document元素绑定了各种事件，处理data-remote="true"的元素等等。
+Bootstrap中可以通过在html中声明data-xxx属性来使用JavaScript插件，也是插件在一开始就绑定回调到document元素的关系。</p>
+
+<h2>live</h2>
+
+<p>这个方法在jQuery 1.7中被废弃，1.9中就被移除了。不建议使用（可用delegate替代）。
+它跟delegate提供一样的功能，只是事件直接元素直接绑定到document，省去了跟元素的定义，看看例子就知道了。</p>
+
+<p>相应的解除绑定的方法是<strong>die</strong>，同样已被废弃。</p>
+
+<p><code>javascript JavaScript
+$('a.delete').live('click', function() {});                  // 跟元素为document
+$(document).delegate('a.delete', 'click', function() {});    // delegate的写法
+$(document).on('click', 'a.delete', function() {});          // on的写法
+</code></p>
+
+<h2>one</h2>
+
+<p>这个方法跟on差不多，就是对于每个绑定的元素和事件，回调只执行一次，之后自动unbind。
+它的方法签名跟on完全一样，你会用on就会用这个。</p>
+
+<p><code>javascript JavaScript
+$('table a.delete').one('click', function() {});       // 通常的写法
+$('table').one('click', 'a.delete', function() {});    // delegate的写法
+</code></p>
+
+<h2>参考文档</h2>
+
+<p>好吧我标题党了……直接去看官方API就可以了。一个on的API就能让你了解jQuery事件绑定的方方面面。也许还有些平时你不知道的知识。 比如：</p>
+
+<ol>
+<li>你知道回调函数里return false和stopPropagation和preventDefault的区别吗？</li>
+<li>你知道stopPropagation和stopImmediatePropagation的区别吗？</li>
+<li>你知道trigger和triggerHandler的区别吗？</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery中prop和attr的区别]]></title>
+    <link href="http://darkbaby123.github.com/blog/2013/02/19/jquery-prop-and-attr/"/>
+    <updated>2013-02-19T21:53:00+08:00</updated>
+    <id>http://darkbaby123.github.com/blog/2013/02/19/jquery-prop-and-attr</id>
+    <content type="html"><![CDATA[<p>一直都以为jQuery中获取html标签属性就是用attr方法，今天碰巧看到一篇文章，才发现还有一个prop方法，就想着查一下两个方法有什么区别。
+结果还真挖出来个坑。</p>
+
+<p>先做个实验，把以下代码保存成html文件，跑一遍（写这篇博客时jQuery版本为1.9.1）</p>
+
+<p>```html HTML
+&lt;!DOCTYPE html>
+<html>
+<head>
+  <style>
+  p { margin: 20px 0 0 }
+  b { color: blue; }
+</style>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body></p>
+
+<p><input id="check1" type="checkbox" checked="checked">
+<label for="check1">Check me</label></p>
+
+<p></p>
+
+
+
+
+<script>
+$("input").change(function() {
+  var $input = $(this);
+  $("p").html(".attr('checked'): <b>" + $input.attr('checked') + "</b><br>"
+              + ".prop('checked'): <b>" + $input.prop('checked') + "</b><br>"
+              + ".is(':checked'): <b>" + $input.is(':checked') ) + "</b>";
+}).change();
+</script>
+
+
+<p></body>
+</html>
+```</p>
+
+<p>这是jQuery官方文档的对prop方法做的一个例子，展示prop和attr的区别。先说结果：</p>
+
+<p><code>javascript JavaScript
+attr('checked')    // 不管checkbox选中与否，始终返回'checked'，注意不是true和false
+prop('checked')    // 根据checkbox的状态返回true或false
+</code></p>
+
+<p>为什么会有这种结果？jQuery为什么要提供attr和prop两个类似的方法？这得从html说起。</p>
+
+<!-- more -->
+
+
+<h2>html中的attribute和property</h2>
+
+<p>虽然在中文里这两个词差不多的意思，但html中对此的定义却有严格区别。先大致解释下：</p>
+
+<ul>
+<li>attribute是html文本层面的，我们在写html时看到的 key="value" 就是attribute。其值始终是html元素定义时的值，除非html文本改变。</li>
+<li>property是dom层面的，可以理解成用原生JavaScript函数获取的dom对象的属性。并且会随着我们对dom树的操作而改变。
+有的property是attribute在dom对象中的一种呈现。所以property和attribute有一定的交集。</li>
+</ul>
+
+
+<p>看个例子：</p>
+
+<p><code>html HTML
+&lt;input type="checkbox" id="cb" class="cb" name="key" checked="checked"/&gt;
+</code></p>
+
+<p>这是一个checkbox，默认是勾选状态的。它的attribute有id，type，class，name和checked。这些attribute的值都不会改变。
+即使取消了勾选状态，其checked属性也是"checked"</p>
+
+<p>再看dom层面，id，type，name和checked都有同名的property。class这个attribute对应property的叫className。另外，作为一个dom元素，它还有nodeName这个property。
+上面那个checkbox元素的dom对象可以通过JavaScript获取。你可以把property看成JavaScript里面dom对象的属性。</p>
+
+<p><code>javascript JavaScript
+var el = document.getElementById('cb');
+el.className   // "cb"        property的名称跟attribute的名称并不是完全对应的。
+el.class       // undefined
+el.nodeName    // "INPUT"     property也不一定就是attribute的照搬，它只跟dom有关
+el.checked     // true        注意这里不是"checked"
+</code></p>
+
+<p>明白了这些后，就不难理解jQuery的prop和attr方法的区别了。但事情还没完。</p>
+
+<h2>jQuery中的attr和prop</h2>
+
+<p>为了遵守html规范，jQuery对attribute和property分别提供了封装方法attr和prop。但因为prop是jQuery 1.6版本才引进的，而且jQuery 1.9之前的版本为了考虑老代码的兼容性问题，
+对attr和prop的界限划得有点模糊。</p>
+
+<p>还是拿上面那个checkbox举例子，看看jQuery中各版本的区别，先拿checked属性做个实验</p>
+
+<p>```javascript JavaScript
+$('.cb').prop("checked")    // true  会随着checkbox状态改变而改变
+$('.cb').attr("checked")    // (pre-1.6) true  会随着checkbox状态而改变</p>
+
+<pre><code>                        // (1.6) "checked"  始终获取checkbox的初始状态，不会改变
+                        // (1.6.1 - 1.8)    "checked"  会随着checkbox状态改变而改变，这是出于对老代码的兼容性考虑
+                        // (1.9.1) "checked"  始终获取checkbox的初始状态，跟1.6一样
+</code></pre>
+
+<p>```</p>
+
+<p>然后看看其他属性，attr和prop获取的值是否有区别：</p>
+
+<p><code>javascript JavaScript
+$('.cb').prop('name', "aaa")   // 这里不管用prop还是attr对实验结果都没有影响
+$('.cb').prop('name')          // "aaa"  返回的是改变后的状态
+$('.cb').attr('name')          // "aaa"  同上
+</code></p>
+
+<p>可以看到这里并没有什么区别，为什么？因为attribute针对的是html文本改变，以上代码，改变name的时候，相应的html文本也产生了变化（用开发工具可以看到）。
+所以这里attr和prop获取的都是改变后的值。</p>
+
+<p>最后个人总结一下什么时候适合用什么方法：</p>
+
+<ul>
+<li>改变property就会改变html的，不管用prop还是attr都可以。大多数的property都属于此列，比如type，name，src。
+你可以用JavaScript改变property后再用开发工具看看html是否产生了变化。</li>
+<li>改变property不会改变html的，适合用prop，或者jQuery针对该属性专门提供的方法
+举个例子，文本框里的value属性，可以通过用户输入，或者用JavaScript改变，prop和val都可以获取正确的值，但优先推荐val。
+这种情况attr返回的值就完全不对了。</li>
+<li>不属于attribute对应的property，适合用prop，比如nodeName。</li>
+<li>表示true/false含义的attribute，适合用prop，比如checked，disabled，方便做判断。</li>
+</ul>
+
+
+<h2>参考文档</h2>
+
+<ul>
+<li><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a>
+这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</li>
+<li><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a>
+这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</li>
+<li><a href="http://api.jquery.com/prop/">jQuery API: prop</a>
+官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

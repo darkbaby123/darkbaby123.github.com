@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jQuery中prop和attr的区别 - David's Blog</title>
+  <meta name="author" content="David Chen">
+
+  
+  <meta name="description" content="一直都以为jQuery中获取html标签属性就是用attr方法，今天碰巧看到一篇文章，才发现还有一个prop方法，就想着查一下两个方法有什么区别。
+结果还真挖出来个坑。 先做个实验，把以下代码保存成html文件，跑一遍（写这篇博客时jQuery版本为1.9.1） HTML1
+2
+3
+4
+5
+6
+7 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://darkbaby123.github.com/blog/2013/02/19/jquery-prop-and-attr">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="David's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">David's Blog</a></h1>
+  
+    <h2>Knowledge to productivity</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:darkbaby123.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">jQuery中prop和attr的区别</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-19T21:53:00+08:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>一直都以为jQuery中获取html标签属性就是用attr方法，今天碰巧看到一篇文章，才发现还有一个prop方法，就想着查一下两个方法有什么区别。
+结果还真挖出来个坑。</p>
+
+<p>先做个实验，把以下代码保存成html文件，跑一遍（写这篇博客时jQuery版本为1.9.1）</p>
+
+<figure class='code'><figcaption><span>HTML</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;style&gt;</span>
+</span><span class='line'>  <span class="nt">p</span> <span class="p">{</span> <span class="k">margin</span><span class="o">:</span> <span class="m">20px</span> <span class="m">0</span> <span class="m">0</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nt">b</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://code.jquery.com/jquery-latest.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;check1&quot;</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">checked=</span><span class="s">&quot;checked&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;check1&quot;</span><span class="nt">&gt;</span>Check me<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;script&gt;</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;.attr(&#39;checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&lt;br&gt;&quot;</span>
+</span><span class='line'>              <span class="o">+</span> <span class="s2">&quot;.prop(&#39;checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&lt;br&gt;&quot;</span>
+</span><span class='line'>              <span class="o">+</span> <span class="s2">&quot;.is(&#39;:checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:checked&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">change</span><span class="p">();</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是jQuery官方文档的对prop方法做的一个例子，展示prop和attr的区别。先说结果：</p>
+
+<figure class='code'><figcaption><span>JavaScript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span>    <span class="c1">// 不管checkbox选中与否，始终返回&#39;checked&#39;，注意不是true和false</span>
+</span><span class='line'><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span>    <span class="c1">// 根据checkbox的状态返回true或false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为什么会有这种结果？jQuery为什么要提供attr和prop两个类似的方法？这得从html说起。</p>
+
+<!-- more -->
+
+
+<h2>html中的attribute和property</h2>
+
+<p>虽然在中文里这两个词差不多的意思，但html中对此的定义却有严格区别。先大致解释下：</p>
+
+<ul>
+<li>attribute是html文本层面的，我们在写html时看到的 key=&#8221;value&#8221; 就是attribute。其值始终是html元素定义时的值，除非html文本改变。</li>
+<li>property是dom层面的，可以理解成用原生JavaScript函数获取的dom对象的属性。并且会随着我们对dom树的操作而改变。
+有的property是attribute在dom对象中的一种呈现。所以property和attribute有一定的交集。</li>
+</ul>
+
+
+<p>看个例子：</p>
+
+<figure class='code'><figcaption><span>HTML</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">id=</span><span class="s">&quot;cb&quot;</span> <span class="na">class=</span><span class="s">&quot;cb&quot;</span> <span class="na">name=</span><span class="s">&quot;key&quot;</span> <span class="na">checked=</span><span class="s">&quot;checked&quot;</span><span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一个checkbox，默认是勾选状态的。它的attribute有id，type，class，name和checked。这些attribute的值都不会改变。
+即使取消了勾选状态，其checked属性也是&#8221;checked&#8221;</p>
+
+<p>再看dom层面，id，type，name和checked都有同名的property。class这个attribute对应property的叫className。另外，作为一个dom元素，它还有nodeName这个property。
+上面那个checkbox元素的dom对象可以通过JavaScript获取。你可以把property看成JavaScript里面dom对象的属性。</p>
+
+<figure class='code'><figcaption><span>JavaScript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;cb&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">el</span><span class="p">.</span><span class="nx">className</span>   <span class="c1">// &quot;cb&quot;        property的名称跟attribute的名称并不是完全对应的。</span>
+</span><span class='line'><span class="nx">el</span><span class="p">.</span><span class="kr">class</span>       <span class="c1">// undefined</span>
+</span><span class='line'><span class="nx">el</span><span class="p">.</span><span class="nx">nodeName</span>    <span class="c1">// &quot;INPUT&quot;     property也不一定就是attribute的照搬，它只跟dom有关</span>
+</span><span class='line'><span class="nx">el</span><span class="p">.</span><span class="nx">checked</span>     <span class="c1">// true        注意这里不是&quot;checked&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>明白了这些后，就不难理解jQuery的prop和attr方法的区别了。但事情还没完。</p>
+
+<h2>jQuery中的attr和prop</h2>
+
+<p>为了遵守html规范，jQuery对attribute和property分别提供了封装方法attr和prop。但因为prop是jQuery 1.6版本才引进的，而且jQuery 1.9之前的版本为了考虑老代码的兼容性问题，
+对attr和prop的界限划得有点模糊。</p>
+
+<p>还是拿上面那个checkbox举例子，看看jQuery中各版本的区别，先拿checked属性做个实验</p>
+
+<figure class='code'><figcaption><span>JavaScript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cb&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s2">&quot;checked&quot;</span><span class="p">)</span>    <span class="c1">// true  会随着checkbox状态改变而改变</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cb&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;checked&quot;</span><span class="p">)</span>    <span class="c1">// (pre-1.6) true  会随着checkbox状态而改变</span>
+</span><span class='line'>                            <span class="c1">// (1.6) &quot;checked&quot;  始终获取checkbox的初始状态，不会改变</span>
+</span><span class='line'>                            <span class="c1">// (1.6.1 - 1.8) &quot;checked&quot;  会随着checkbox状态改变而改变，这是出于对老代码的兼容性考虑</span>
+</span><span class='line'>                            <span class="c1">// (1.9.1) &quot;checked&quot;  始终获取checkbox的初始状态，跟1.6一样</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后看看其他属性，attr和prop获取的值是否有区别：</p>
+
+<figure class='code'><figcaption><span>JavaScript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cb&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s2">&quot;aaa&quot;</span><span class="p">)</span>   <span class="c1">// 这里不管用prop还是attr对实验结果都没有影响</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cb&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>          <span class="c1">// &quot;aaa&quot;  返回的是改变后的状态</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cb&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>          <span class="c1">// &quot;aaa&quot;  同上</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到这里并没有什么区别，为什么？因为attribute针对的是html文本改变，以上代码，改变name的时候，相应的html文本也产生了变化（用开发工具可以看到）。
+所以这里attr和prop获取的都是改变后的值。</p>
+
+<p>最后个人总结一下什么时候适合用什么方法：</p>
+
+<ul>
+<li>改变property就会改变html的，不管用prop还是attr都可以。大多数的property都属于此列，比如type，name，src。
+你可以用JavaScript改变property后再用开发工具看看html是否产生了变化。</li>
+<li>改变property不会改变html的，适合用prop，或者jQuery针对该属性专门提供的方法
+举个例子，文本框里的value属性，可以通过用户输入，或者用JavaScript改变，prop和val都可以获取正确的值，但优先推荐val。
+这种情况attr返回的值就完全不对了。</li>
+<li>不属于attribute对应的property，适合用prop，比如nodeName。</li>
+<li>表示true/false含义的attribute，适合用prop，比如checked，disabled，方便做判断。</li>
+</ul>
+
+
+<h2>参考文档</h2>
+
+<ul>
+<li><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a>
+这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</li>
+<li><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a>
+这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</li>
+<li><a href="http://api.jquery.com/prop/">jQuery API: prop</a>
+官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Chen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-19T21:53:00+08:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>, <a class='category' href='/blog/categories/jquery/'>jQuery</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://darkbaby123.github.com/blog/2013/02/19/jquery-prop-and-attr/" data-via="" data-counturl="http://darkbaby123.github.com/blog/2013/02/19/jquery-prop-and-attr/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/02/24/the-difference-jquery-event-binding-methods/" title="Next Post: jQuery中不同的事件绑定方法的区别">jQuery中不同的事件绑定方法的区别 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/coffeescript-supports-source-maps-now/">CoffeeScript支持source maps了，在浏览器中调试CoffeeScript已成为现实</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/jquery-ujs-ajax-callback/">jquery_ujs小技巧，使用ajax回调</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/24/the-difference-jquery-event-binding-methods/">jQuery中不同的事件绑定方法的区别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/19/jquery-prop-and-attr/">jQuery中prop和attr的区别</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - David Chen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

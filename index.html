@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>David's Blog</title>
+  <meta name="author" content="David Chen">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="CoffeeScript 1.6.1版本的新功能之一，就是支持source maps。 什么是source maps？简单的说，它可以通过一定的方式，从编译/压缩后的JavaScript代码，找到对应的未编译/压缩的源文件。 这个技术就是用来调试用的，目前可以用在两个地方： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@
   <link rel="canonical" href="http://darkbaby123.github.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="David's Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -36,9 +36,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">David's Blog</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>Knowledge to productivity</h2>
   
 </hgroup>
 
@@ -66,6 +66,252 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/15/coffeescript-supports-source-maps-now/">CoffeeScript支持source maps了，在浏览器中调试CoffeeScript已成为现实</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-15T20:23:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>CoffeeScript 1.6.1版本的新功能之一，就是支持source maps。</p>
+
+<p>什么是source maps？简单的说，它可以通过一定的方式，从编译/压缩后的JavaScript代码，找到对应的未编译/压缩的源文件。</p>
+
+<p>这个技术就是用来调试用的，目前可以用在两个地方：</p>
+
+<ol>
+<li>从压缩后的JavaScript代码找到未压缩的版本，让你在生产环境下调试时，不至于面对天书一样的JavaScript无从下手。</li>
+<li>从编译后的JavaScript代码找到编译之前的CoffeeScript代码，不用你身体内置编译器了。</li>
+</ol>
+
+
+<p>我们可以建一个简单的项目试试，如果你不想动手的话，看看代码和图片也足够明白了。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/15/coffeescript-supports-source-maps-now/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/27/jquery-ujs-ajax-callback/">Jquery_ujs小技巧，使用ajax回调</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-27T19:42:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近在优化admin后台的几个CRUD页面，要把删除数据的DELETE请求的变成ajax的。为了重用客户端的JavaScript代码，研究了一下jquery_ujs文件。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/02/27/jquery-ujs-ajax-callback/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/24/the-difference-jquery-event-binding-methods/">jQuery中不同的事件绑定方法的区别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-24T12:55:00+08:00" pubdate data-updated="true">Feb 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这段时间处理事件绑定方法比较多，突然想到jQuery里绑定方法挺多的，有on, bind, delegate，还有以前记得的live和one。以前都只会用，
+没具体研究过区别在哪里。这篇文章算是把知识梳理一下，做个总结。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/02/24/the-difference-jquery-event-binding-methods/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/19/jquery-prop-and-attr/">jQuery中prop和attr的区别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-19T21:53:00+08:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一直都以为jQuery中获取html标签属性就是用attr方法，今天碰巧看到一篇文章，才发现还有一个prop方法，就想着查一下两个方法有什么区别。
+结果还真挖出来个坑。</p>
+
+<p>先做个实验，把以下代码保存成html文件，跑一遍（写这篇博客时jQuery版本为1.9.1）</p>
+
+<figure class='code'><figcaption><span>HTML</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;style&gt;</span>
+</span><span class='line'>  <span class="nt">p</span> <span class="p">{</span> <span class="k">margin</span><span class="o">:</span> <span class="m">20px</span> <span class="m">0</span> <span class="m">0</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nt">b</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://code.jquery.com/jquery-latest.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;check1&quot;</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">checked=</span><span class="s">&quot;checked&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;check1&quot;</span><span class="nt">&gt;</span>Check me<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;script&gt;</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;.attr(&#39;checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&lt;br&gt;&quot;</span>
+</span><span class='line'>              <span class="o">+</span> <span class="s2">&quot;.prop(&#39;checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&lt;br&gt;&quot;</span>
+</span><span class='line'>              <span class="o">+</span> <span class="s2">&quot;.is(&#39;:checked&#39;): &lt;b&gt;&quot;</span> <span class="o">+</span> <span class="nx">$input</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:checked&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/b&gt;&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">change</span><span class="p">();</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是jQuery官方文档的对prop方法做的一个例子，展示prop和attr的区别。先说结果：</p>
+
+<figure class='code'><figcaption><span>JavaScript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span>    <span class="c1">// 不管checkbox选中与否，始终返回&#39;checked&#39;，注意不是true和false</span>
+</span><span class='line'><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">)</span>    <span class="c1">// 根据checkbox的状态返回true或false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为什么会有这种结果？jQuery为什么要提供attr和prop两个类似的方法？这得从html说起。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/02/19/jquery-prop-and-attr/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -77,6 +323,22 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/coffeescript-supports-source-maps-now/">CoffeeScript支持source maps了，在浏览器中调试CoffeeScript已成为现实</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/jquery-ujs-ajax-callback/">jquery_ujs小技巧，使用ajax回调</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/24/the-difference-jquery-event-binding-methods/">jQuery中不同的事件绑定方法的区别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/19/jquery-prop-and-attr/">jQuery中prop和attr的区别</a>
+      </li>
     
   </ul>
 </section>
@@ -91,7 +353,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Your Name -
+  Copyright &copy; 2013 - David Chen -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
