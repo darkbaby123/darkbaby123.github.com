@@ -4,7 +4,7 @@
   <title><![CDATA[David's Blog]]></title>
   <link href="http://darkbaby123.github.com/atom.xml" rel="self"/>
   <link href="http://darkbaby123.github.com/"/>
-  <updated>2013-03-16T21:00:43+08:00</updated>
+  <updated>2013-03-16T21:08:15+08:00</updated>
   <id>http://darkbaby123.github.com/</id>
   <author>
     <name><![CDATA[David Chen]]></name>
@@ -156,17 +156,17 @@
 <p>也许因为这些原因，目前Rails项目里面还不能使用source maps直接调试CoffeeScript文件。好消息是Sprocket现在正在添加
 对source maps功能的支持，应该不久就会有结果。到时候用Rails的我们就又high啦。</p>
 
-<p>另外，source maps只是一个映射到源文件的技术，这就是说以后还可以利用这个技术在浏览器中看SASS和LESS，说不定还可以通过html看erb和slim（忽略haml）？前景可谓一片大好。</p>
+<p>另外，source maps只是一个映射到源文件的技术，这就是说以后还可以利用这个技术在浏览器中看SASS和LESS，说不定还可以通过html看erb，slim和haml？前景可谓一片光明。</p>
 
 <h2>参考文档</h2>
 
 <ul>
-<li><a href="http://coffeescript.org/#source-maps">CoffeeScript source maps</a>
-CoffeeScript官网的介绍。</li>
-<li><a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">Introduction to JavaScript Source Maps</a>
-介绍source maps技术，想深挖原理的可以看看。里面有个demo，点击一段未压缩的JavaScript代码，可以看到该段代码对应源文件中的哪一行，非常cool。</li>
-<li><a href="http://net.tutsplus.com/tutorials/tools-and-tips/source-maps-101/">nettuts+ Source Maps 101</a>
-这篇文章讲的很细，包括从压缩的JavaScript映射到未压缩的版本，从JavaScript映射到TypeScript（微软的预编译语言，更类似静态语言）等等。</li>
+<li><p><a href="http://coffeescript.org/#source-maps">CoffeeScript source maps</a><br/>
+CoffeeScript官网的介绍。</p></li>
+<li><p><a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">Introduction to JavaScript Source Maps</a><br/>
+介绍source maps技术，想深挖原理的可以看看。里面有个demo，点击一段未压缩的JavaScript代码，可以看到该段代码对应源文件中的哪一行，非常cool。</p></li>
+<li><p><a href="http://net.tutsplus.com/tutorials/tools-and-tips/source-maps-101/">nettuts+ Source Maps 101</a><br/>
+这篇文章讲的很细，包括从压缩的JavaScript映射到未压缩的版本，从JavaScript映射到TypeScript（微软的预编译语言，更类似静态语言）等等。</p></li>
 </ul>
 
 ]]></content>
@@ -523,12 +523,12 @@ Bootstrap中可以通过在html中声明data-xxx属性来使用JavaScript插件�
 <h2>参考文档</h2>
 
 <ul>
-<li><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a>
-这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</li>
-<li><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a>
-这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</li>
-<li><a href="http://api.jquery.com/prop/">jQuery API: prop</a>
-官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</li>
+<li><p><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a><br/>
+这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</p></li>
+<li><p><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a><br/>
+这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</p></li>
+<li><p><a href="http://api.jquery.com/prop/">jQuery API: prop</a><br/>
+官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</p></li>
 </ul>
 
 ]]></content>

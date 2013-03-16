@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jQuery | David's Blog]]></title>
   <link href="http://darkbaby123.github.com/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://darkbaby123.github.com/"/>
-  <updated>2013-03-16T21:00:43+08:00</updated>
+  <updated>2013-03-16T21:08:15+08:00</updated>
   <id>http://darkbaby123.github.com/</id>
   <author>
     <name><![CDATA[David Chen]]></name>
@@ -307,12 +307,12 @@ $('.cb').attr('name')          // "aaa"  同上
 <h2>参考文档</h2>
 
 <ul>
-<li><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a>
-这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</li>
-<li><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a>
-这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</li>
-<li><a href="http://api.jquery.com/prop/">jQuery API: prop</a>
-官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</li>
+<li><p><a href="http://jquery-howto.blogspot.jp/2013/02/jquery-test-check-if-checkbox-checked.html">jQuery: Test/check if checkbox is checked</a><br/>
+这篇文章列举了几种判断checkbox是否被选中的方法，例子挺多。</p></li>
+<li><p><a href="http://jquery-howto.blogspot.jp/2011/06/html-difference-between-attribute-and.html">HTML: The difference between attribute and property</a><br/>
+这篇文章讲了attribute和property的区别，但对attribute的定义并不正确，attribute并不是始终以在html定义时的初始状态为准，而是始终跟html文本的变化保持同步。</p></li>
+<li><p><a href="http://api.jquery.com/prop/">jQuery API: prop</a><br/>
+官方API，说明了为什么要加入prop这个方法，和在不同版本中的差异。</p></li>
 </ul>
 
 ]]></content>
