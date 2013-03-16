@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://darkbaby123.github.com/sitemap.xml 
